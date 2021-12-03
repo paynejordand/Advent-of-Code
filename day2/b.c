@@ -8,11 +8,9 @@ int main(void)
     int dist;
     char dir[7];
 
-    FILE* file = fopen("input.txt", "r");
-
-    while(!feof(file))
+    while(!feof(stdin))
     {
-        fscanf(file, "%s %d ", dir, &dist);
+        scanf("%s %d ", dir, &dist);
         
         switch(dir[0])
         {
@@ -30,6 +28,5 @@ int main(void)
     }
 
     printf("%d\n", depth*horiz);
-    fclose(file);
     return 0;
 }
