@@ -18,19 +18,17 @@ void readDraws(int* draws)
 
 void readBoards(bingo* inBoard)
 {
-    int boardCount = 0;
     while(!feof(stdin))
     {
         for(int i = 0; i < 5; i++)
         {
             for(int j = 0; j < 5; j++)
             {
-                scanf("%d ", &(inBoard[boardCount].layout[i][j]));
-                inBoard[boardCount].called[i][j] = 0;
+                scanf("%d ", &(inBoard->layout[i][j]));
+                inBoard->called[i][j] = 0;
             }
         }
-        inBoard[boardCount].won = 0;
-        boardCount++;
+        (inBoard++)->won = 0;
     }
 }
 
@@ -58,25 +56,28 @@ void checkBoards(bingo* boards, int draw, int* winningBoard, int * win)
 {
     for(int i = 0; i < 100; i++)
     {
-        if (boards[i].won)
+        if (boards->won)
+        {
+            boards++;
             continue;
+        }
         for(int j = 0; j < 5; j++)
         {
             for(int k = 0; k < 5; k++)
             {
-                if(boards[i].layout[j][k] == draw)
+                if(boards->layout[j][k] == draw)
                 {
-                    boards[i].called[j][k] = 1;
-                    if (checkVert(boards[i], k) || checkHoriz(boards[i], j))
+                    boards->called[j][k] = 1;
+                    if (checkVert(*boards, k) || checkHoriz(*boards, j))
                     {
                         (*winningBoard) = i;
                         *win = i;
-                        boards[i].won = 1;
+                        boards->won = 1;
                     }
                 }
             }
         }
-        
+        boards++;
     }
 }
 
