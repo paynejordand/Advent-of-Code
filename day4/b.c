@@ -4,6 +4,7 @@
 typedef struct {
     int layout[5][5];
     int called[5][5];
+    int won;
 } bingo;
 
 void readDraws(int* draws)
@@ -28,6 +29,7 @@ void readBoards(bingo* inBoard)
                 inBoard[boardCount].called[i][j] = 0;
             }
         }
+        inBoard[boardCount].won = 0;
         boardCount++;
     }
 }
@@ -52,10 +54,12 @@ int checkVert(bingo board, int col)
     return 1;
 }
 
-void checkBoards(bingo* boards, int draw, int* winningBoard)
+void checkBoards(bingo* boards, int draw, int* winningBoard, int * win)
 {
     for(int i = 0; i < 100; i++)
     {
+        if (boards[i].won)
+            continue;
         for(int j = 0; j < 5; j++)
         {
             for(int k = 0; k < 5; k++)
@@ -66,27 +70,32 @@ void checkBoards(bingo* boards, int draw, int* winningBoard)
                     if (checkVert(boards[i], k) || checkHoriz(boards[i], j))
                     {
                         (*winningBoard) = i;
-                        return;
+                        *win = i;
+                        boards[i].won = 1;
                     }
                 }
             }
         }
+        
     }
 }
 
 void playBingo(int* draws, bingo* boards, int *winningBoard, int *lastDraw)
 {
+    int winCount = 0;
     for(int i = 0; i < 100; i++)
     {
-        int draw = draws[i];
-        checkBoards(boards, draw, winningBoard);
-        if(*winningBoard != -1)
+        int draw = *draws++;
+        int win = 0;
+        checkBoards(boards, draw, winningBoard, &win);
+        if(win)
         {
             *lastDraw = draw;
-            break;
+            winCount++;
+            if (winCount == 100)
+                return;
         }
     }
-
 }
 
 int calcBoard(bingo board, int lastDraw)
