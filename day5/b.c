@@ -106,7 +106,7 @@ void printGrid(int grid[G_SIZE][G_SIZE])
     }
 }
 
-void checkVents(line_segment* lines, int grid[G_SIZE][G_SIZE], int* overlaps)
+void checkVents(line_segment* lines, int grid[G_SIZE][G_SIZE])
 {
     for(int i = 0; i < IN_SIZE; i++)
     {
@@ -131,7 +131,6 @@ void checkVents(line_segment* lines, int grid[G_SIZE][G_SIZE], int* overlaps)
         }
         lines++;
     }
-    checkOverlap(grid, overlaps);
 }
 
 int main(void)
@@ -142,10 +141,11 @@ int main(void)
     initGrid(grid);
 
     line_segment* lines = malloc(sizeof(line_segment)*G_SIZE);
-
     readLines(lines);
 
-    checkVents(lines, grid, &overlaps);
+    checkVents(lines, grid);
+    checkOverlap(grid, &overlaps);
+
     
     //printGrid(grid);
 
