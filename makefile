@@ -1,19 +1,19 @@
-compA: a.c
+a: a.c
 	gcc -Wall -g -o a a.c
 
-runA:
+runA: a
 	./a < input.txt
 
-debugA:
+debugA: a
 	gdb ./a
 
-compB: b.c
+b: b.c
 	gcc -Wall -g -o b b.c
 
-runB:
+runB: b
 	./b < input.txt
 
-debugB:
+debugB: b
 	gdb ./b
 
 clean:
