@@ -7,7 +7,7 @@ int main(void)
     unsigned long long int newFish[9] = {0, 0, 0, 0, 0, 0, 0, 0 ,0};
 
 
-    int i = 0;
+
     while(!feof(stdin))
     {
         int timer;
@@ -15,9 +15,9 @@ int main(void)
         fish[timer]++;
     }
 
-    for(i = 1; i <= 256; i++)
+    for(int day = 1; day <= 256; day++)
     {
-        printf("After %4d days: ", i);
+        printf("After %4d days: ", day);
         for(int i = 0; i <=8; i++)
         {
             newFish[i] = fish[(i+1)%9];
