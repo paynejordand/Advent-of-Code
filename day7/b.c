@@ -13,7 +13,6 @@ int main(void)
         count++;
     }
 
-
     int minCost = 1410065407;
     for(int i = 0; i <= max; i++)
     {
