@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-// test: 10x5
-//input 110x100
+// test: 11x6
+//input 111x101
 int main(void)
 {
     int len = 111; //test:10 input:110
