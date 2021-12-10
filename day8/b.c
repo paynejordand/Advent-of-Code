@@ -47,7 +47,7 @@ void mapLetters(char mapping[10][8], char wires[11][8])
         case 5: // 2, 3, 5
             if (checkChars(wires[i], mapping[1]) == 2)
                 strcpy(mapping[3], wires[i]);
-            else if(checkChars(wires[i], mapping[4]) == 2)
+            else if (checkChars(wires[i], mapping[4]) == 2)
                 strcpy(mapping[2], wires[i]);
             else
                 strcpy(mapping[5], wires[i]);
@@ -80,11 +80,11 @@ int displayNum(char display[4][8], char wires[11][8])
     int num = 0;
     for (int i = 0; i < 4; i++)
     {
-        for(int j = 0; j < 10; j++)
+        for (int j = 0; j < 10; j++)
         {
-            if(!strcmp(mapping[j], display[i]))
+            if (!strcmp(mapping[j], display[i]))
             {
-                num += (pow(10, 3-i) * j);
+                num += (pow(10, 3 - i) * j);
                 break;
             }
         }
