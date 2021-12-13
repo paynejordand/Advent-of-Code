@@ -1,19 +1,19 @@
 a: a.c
 	gcc -Wall -g -o a a.c -lm
 
-runA: a
+ra: a
 	./a < input.txt
 
-debugA: a
+da: a
 	gdb ./a
 
 b: b.c
 	gcc -Wall -g -o b b.c -lm
 
-runB: b
+rb: b
 	./b < input.txt
 
-debugB: b
+db: b
 	gdb ./b
 
 clean:
