@@ -88,8 +88,7 @@ int main(void)
         while (1)
         {
             scanf("%c", &c);
-
-            if (c == '\n')
+            if (c == '\n' || feof(stdin))
             {
                 while ((c = fgetc(stdin)) != '\n' && c != EOF);
                 break;
@@ -113,6 +112,6 @@ int main(void)
         freeStack(&chunk);
     }
 
-    printf("\n%d\n", points);
+    printf("%d\n", points);
     return 0;
 }
