@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 typedef struct stack stack;
 
@@ -51,21 +52,25 @@ void printStack(stack *s)
 
 int assignPoints(char c)
 {
-    if (c == ')')
+    if (c == '(')
+        return 1;
+    else if (c == '[')
+        return 2;
+    else if (c == '{')
         return 3;
-    else if (c == ']')
-        return 57;
-    else if (c == '}')
-        return 1197;
-    else if (c == '>')
-        return 25137;
+    else if (c == '<')
+        return 4;
     else
         return 0;
 }
 
 int isOpen(char c)
 {
-    return (c == '(' || c == '[' || c == '{' || c == '<');
+    return (
+        c == '(' ||
+        c == '[' ||
+        c == '{' ||
+        c == '<');
 }
 
 int closeMatches(stack *s, char c)
@@ -77,19 +82,39 @@ int closeMatches(stack *s, char c)
         (s->c == '<' && c == '>'));
 }
 
+int uintcmp(const void *a, const void *b)
+{
+    uint64_t ai = *(uint64_t *)a;
+    uint64_t bi = *(uint64_t *)b;
+
+    if (ai < bi)
+        return -1;
+    else
+        return 1;
+}
+
 int main(void)
 {
-    int points = 0;
+    int count = 0;
+    uint64_t arr[47];
     while (!feof(stdin))
     {
-        char c;
         stack *chunk = (stack *)(malloc(sizeof(stack)));
         chunk->prev = NULL;
         while (1)
         {
+            char c;
             scanf("%c", &c);
-            if (c == '\n' || feof(stdin))
+            
+            if (c == '\r' || feof(stdin))
             {
+                uint64_t points = 0;
+                while (chunk->prev != NULL)
+                {
+                    points = (points * 5) + assignPoints(pop(&chunk));
+                }
+                arr[count++] = points;
+
                 while ((c = fgetc(stdin)) != '\n' && c != EOF);
                 break;
             }
@@ -104,14 +129,13 @@ int main(void)
             }
             else
             {
-                points += assignPoints(c);
                 while ((c = fgetc(stdin)) != '\n' && c != EOF);
                 break;
             }
         }
         freeStack(&chunk);
     }
-
-    printf("%d\n", points);
+    qsort(arr, count, sizeof(uint64_t), uintcmp);
+    printf("%lu\n", arr[count / 2]);
     return 0;
 }
