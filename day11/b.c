@@ -73,10 +73,7 @@ int main(void)
         {
             for (int j = 0; j < 10; j++)
             {
-                if (!flashed[i][j])
-                    oct[i][j]++;
-                if (oct[i][j] > 9 && !flashed[i][j])
-                    flash(oct, flashed, i, j, &flashes);
+                flash(oct, flashed, i, j, &flashes);
             }
         }
         resetFlash(flashed);
