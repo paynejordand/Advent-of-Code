@@ -1,61 +1,60 @@
 #include <stdio.h>
 
-#define r 893
-#define c 1311
+#define r 895  // test: 15 input: 895
+#define c 1311 // test: 11 input: 1311
 
-void zeroGrid(char grid[r][c])
+void zeroGrid(int grid[r][c])
 {
     for (int i = 0; i < r; i++)
     {
         for (int j = 0; j < c; j++)
         {
-            grid[i][j] = '.';
+            grid[i][j] = 0;
         }
     }
 }
 
-void printGrid(char grid[r][c], int mc, int mr)
+void printGrid(int grid[r][c], int mc, int mr)
 {
     for (int i = 0; i < mr; i++)
     {
         for (int j = 0; j < mc; j++)
         {
-            printf("%c", grid[i][j]);
+            if (grid[i][j])
+                printf("#");
+            else
+                printf(".");
         }
         printf("\n");
     }
     printf("\n");
 }
 
-void fold_row(char grid[r][c], int *mc, int *mr, int line)
+void fold_row(int grid[r][c], int *mc, int *mr, int line)
 {
-    int offset = ((*mr) % 2);
-    for (int i = 0; i < line; i++)
+    for (int row = 0; row <= line; row++)
     {
-        for (int j = 0; j < *mc; j++)
+        for (int col = 0; col < *mc; col++)
         {
-            char overlap = grid[(*mr - offset) - i][j];
-            grid[i][j] = (overlap == '#') ? overlap : grid[i][j];
+            grid[line - row][col] += grid[line + row][col];
         }
     }
-    (*mr) = line + offset;
+    *mr = line;
 }
 
-void fold_col(char grid[r][c], int *mc, int *mr, int line)
+void fold_col(int grid[r][c], int *mc, int *mr, int line)
 {
-    int offset = ((*mc) % 2);
-    for (int i = 0; i < *mr; i++)
+    for (int row = 0; row < *mr; row++)
     {
-        for (int j = 0; j < line; j++)
+        for (int col = 0; col <= line; col++)
         {
-            char overlap = grid[i][(*mc - offset) - j];
-            grid[i][j] = (overlap == '#') ? overlap : grid[i][j];
+            grid[row][line - col] += grid[row][line + col];
         }
     }
-    (*mc) = line + offset;
+    *mc = line;
 }
 
-void fold(char grid[r][c], int *mc, int *mr, char axis, int line)
+void fold(int grid[r][c], int *mc, int *mr, char axis, int line)
 {
     if (axis == 'y')
         fold_row(grid, mc, mr, line);
@@ -66,23 +65,19 @@ void fold(char grid[r][c], int *mc, int *mr, char axis, int line)
 int main(void)
 {
     int col, row;
-    char grid[r][c];
+    int grid[r][c];
     zeroGrid(grid);
-    int maxRow = 0;
-    int maxCol = 0;
-
-    while (scanf("%d,%d ", &col, &row) == 2)
-    {
-        maxCol = (col >= maxCol) ? (col  +1) : maxCol;
-        maxRow = (row >= maxRow) ? (row + 1) : maxRow;
-        grid[row][col] = '#';
-    }
-
-    char fold_axis;
+    int maxRow = r;
+    int maxCol = c;
     int fold_line;
+    char fold_axis;
 
     while (!feof(stdin))
     {
+        while (scanf("%d,%d ", &col, &row) == 2)
+        {
+            grid[row][col] = 1;
+        }
         scanf("fold along %c=%d ", &fold_axis, &fold_line);
         fold(grid, &maxCol, &maxRow, fold_axis, fold_line);
     }
@@ -92,7 +87,7 @@ int main(void)
     {
         for (int j = 0; j < maxCol; j++)
         {
-            if (grid[i][j] == '#')
+            if (grid[i][j])
                 count++;
         }
     }
