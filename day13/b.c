@@ -73,16 +73,19 @@ int main(void)
 
     while (scanf("%d,%d ", &col, &row) == 2)
     {
-        maxCol = (col >= maxCol) ? (col + 1) : maxCol;
+        maxCol = (col >= maxCol) ? (col  +1) : maxCol;
         maxRow = (row >= maxRow) ? (row + 1) : maxRow;
         grid[row][col] = '#';
     }
 
     char fold_axis;
     int fold_line;
-    
-    scanf("fold along %c=%d ", &fold_axis, &fold_line);
-    fold(grid, &maxCol, &maxRow, fold_axis, fold_line);
+
+    while (!feof(stdin))
+    {
+        scanf("fold along %c=%d ", &fold_axis, &fold_line);
+        fold(grid, &maxCol, &maxRow, fold_axis, fold_line);
+    }
 
     int count = 0;
     for (int i = 0; i < maxRow; i++)
@@ -93,7 +96,9 @@ int main(void)
                 count++;
         }
     }
-    
+
+    printGrid(grid, maxCol, maxRow);
+
     printf("%d\n", count);
 
     return 0;
