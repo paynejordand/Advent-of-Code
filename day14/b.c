@@ -89,13 +89,9 @@ int main(void)
         for (int j = 0; j < numPairs; j++)
         {
             uint64_t count;
-            if ((count = tempPairs[j].count) >= 0)
+            if ((count = tempPairs[j].count))
             {
                 patternAdd(pairs, letters, j, count, numPairs);
-            }
-            else
-            {
-                printf("wtf\n");
             }
         }
     }
