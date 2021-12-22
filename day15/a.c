@@ -151,6 +151,9 @@ void dijkstra(uint32_t grid[SIZE][SIZE], set *s)
         orderSet(s);
         if (s->notVisited == s->count)
             break;
+
+        if (s->visited[set_contains(*s, SIZE - 1, SIZE - 1)].visited)
+            break;
     }
 }
 
