@@ -79,14 +79,11 @@ void set_clear(set *s)
 
 void set_add(set *s, uint16_t i, uint16_t j, uint8_t v, uint32_t w)
 {
-    if (set_contains(*s, i, j) < 0)
-    {
-        uint32_t count = s->count++;
-        s->visited[count].i = i;
-        s->visited[count].j = j;
-        s->visited[count].visited = v;
-        s->visited[count].weight = w;
-    }
+    uint32_t count = s->count++;
+    s->visited[count].i = i;
+    s->visited[count].j = j;
+    s->visited[count].visited = v;
+    s->visited[count].weight = w;
 }
 
 void orderSet(set *s)
@@ -104,7 +101,8 @@ void getWeights(uint32_t grid[SIZE][SIZE], set *s, uint16_t i, uint16_t j, uint3
 
 void dijkstra(uint32_t grid[SIZE][SIZE], set *s)
 {
-    while (1)
+    uint32_t v = 0;
+    while (v != SIZE*SIZE)
     {
         node *n = &(s->visited[0]);
         n->visited = 1;
@@ -144,10 +142,7 @@ void dijkstra(uint32_t grid[SIZE][SIZE], set *s)
                 next_node->weight = (n->weight + weights[i]);
         }
         orderSet(s);
-        // if (s->notVisited == s->count)
-        //     break;
-        if (s->visited[set_contains(*s, SIZE - 1, SIZE - 1)].visited)
-            break;
+        v++;
     }
 }
 
@@ -166,6 +161,18 @@ void addTiles(uint32_t grid[SIZE][SIZE], set *s, uint16_t i, uint16_t j)
             uint32_t weight = ((tmpI + tmpJ) == 0) ? 0 : UINT32_MAX;
             set_add(s, tmpI, tmpJ, 0, weight);
         }
+    }
+}
+
+void printGrid(uint32_t grid[SIZE][SIZE])
+{
+    for (uint32_t i = 0; i < SIZE; i++)
+    {
+        for (uint32_t j = 0; j < SIZE; j++)
+        {
+            printf("%u", grid[i][j]);
+        }
+        printf("\n");
     }
 }
 
