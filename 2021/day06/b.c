@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <math.h>
 
 int main(void)
 {
-    unsigned long long int count = 300;
-    unsigned long long int fish[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-    unsigned long long int newFish[9] = {0, 0, 0, 0, 0, 0, 0, 0 ,0};
+    uint64_t count = 300;
+    uint64_t fish[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    uint64_t newFish[9] = {0, 0, 0, 0, 0, 0, 0, 0 ,0};
 
 
 
@@ -17,7 +19,6 @@ int main(void)
 
     for(int day = 1; day <= 256; day++)
     {
-        printf("After %4d days: ", day);
         for(int i = 0; i <=8; i++)
         {
             newFish[i] = fish[(i+1)%9];
@@ -28,9 +29,8 @@ int main(void)
         {
             fish[i] = newFish[i];
         }
-        printf("\n");
     }
 
-    printf("%lld\n", count);
+    printf("%ld\n", count);
     return 0;
 }
